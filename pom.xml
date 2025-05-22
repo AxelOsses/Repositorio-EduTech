@@ -11,12 +11,12 @@
   <packaging>pom</packaging>
 
   <modules>
-  <module>usuarios-service</module>
-  <module>cursos-inscripciones-service</module>
-  <module>contenidos-service</module>
-  <module>ventas-service</module>
-  <module>soporte-service</module>
-</modules>
+    <module>usuarios-service</module>
+    <module>cursos-inscripciones-service</module>
+    <module>contenidos-service</module>
+    <module>ventas-service</module>
+    <module>soporte-service</module>
+  </modules>
 
   <properties>
     <java.version>17</java.version>
@@ -35,4 +35,15 @@
     </dependencies>
   </dependencyManagement>
 
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+         
 </project>
