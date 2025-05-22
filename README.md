@@ -19,7 +19,7 @@ El sistema está desarrollado bajo una arquitectura de microservicios, donde cad
 
 > Microservicio opcional pendiente: `reseñas-service` (para calificaciones y comentarios sobre cursos).
 
-## 🛠️ Tecnologías
+##  Tecnologías
 
 - Java 17
 - Spring Boot 3.3.11
