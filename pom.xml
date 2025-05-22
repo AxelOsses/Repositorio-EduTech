@@ -11,13 +11,12 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>usuarios-service</module>
-    <module>cursos-service</module>
-    <module>contenidos-service</module>
-    <module>inscripciones-service</module>
-    <module>ventas-service</module>
-    <module>soporte-service</module>
-  </modules>
+  <module>usuarios-service</module>
+  <module>cursos-inscripciones-service</module>
+  <module>contenidos-service</module>
+  <module>ventas-service</module>
+  <module>soporte-service</module>
+</modules>
 
   <properties>
     <java.version>17</java.version>
