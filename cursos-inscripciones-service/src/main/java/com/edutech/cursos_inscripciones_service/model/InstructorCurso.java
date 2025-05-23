@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.ForeignKey;
 
 
@@ -19,19 +20,22 @@ public class InstructorCurso {
     
     @Id
     @GeneratedValue
-    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    @Column(name = "id_instructor_curso", length = 36, updatable = false, nullable = false)
     private UUID id;
 
     // ID del instructor que proviene del microservicio usuarios-service
+    @NotNull
     @Column(name = "id_usuario", nullable = false)
     private UUID instructorId;
 
-    //Relación con la entidad local Curso
-    @ManyToOne(optional = false)// Relación con la entidad local Curso (clave foránea hacia Curso.id)
+    //Relación con la entidad local Curso (llave foránea hacia Curso.id)
+    @NotNull
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_instructorcurso_curso"))// se enlaza con Curso.id
     private Curso curso;
 
+    @NotNull
     @Column(name = "fecha_otorgacion", nullable = false)
     private LocalDate fechaOtorgacion;
     
