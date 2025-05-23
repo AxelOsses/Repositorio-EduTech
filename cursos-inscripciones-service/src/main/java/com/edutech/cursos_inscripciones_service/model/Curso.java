@@ -17,13 +17,13 @@ public class Curso {
 
     @Id
     @GeneratedValue
-    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    @Column(name = "id_curso", columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
     @Column(nullable = false)
     private String titulo;
 
-    @Column(length = 1000)
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
 
     @Column(name = "fecha_creacion", nullable = false)
