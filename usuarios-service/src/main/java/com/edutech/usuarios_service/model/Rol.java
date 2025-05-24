@@ -43,7 +43,7 @@ public class Rol {
     @ToString.Exclude
     private Set<Permiso> permisos = new HashSet<>();
 
-    // Constructor personalizado adicional (opcional)
+    // Constructor personalizado adicional
     public Rol(String nombre, String descripcion, LocalDateTime fechaCreacion, boolean estaActivo) {
         this.nombre = nombre;
         this.descripcion = descripcion;
