@@ -23,7 +23,7 @@ public class Permiso {
     @Column
     private String descripcion;
 
-    // Constructor adicional opcional
+    // Constructor adicional
     public Permiso(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
