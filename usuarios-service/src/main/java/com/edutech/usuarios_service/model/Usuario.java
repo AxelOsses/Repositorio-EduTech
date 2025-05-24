@@ -35,7 +35,7 @@ public class Usuario {
     private String password;
 
     @Column(name = "fecha_creacion", nullable = false)
-    private LocalDateTime fechaCreacion = LocalDateTime.now();  // Fecha actual por defecto
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
 
     @Column(name = "esta_activo", nullable = false)
     private Boolean estaActivo = true;
@@ -44,7 +44,7 @@ public class Usuario {
     @ToString.Exclude  // Evitar recursión en toString
     private List<UsuarioRol> roles = new ArrayList<>();
 
-    @Builder  // Lombok Builder
+    @Builder
     public Usuario(String nombre, String apellido, String email, String username, String password,
                    LocalDateTime fechaCreacion, Boolean estaActivo) {
         this.id = UUID.randomUUID();
