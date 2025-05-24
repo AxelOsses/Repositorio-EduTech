@@ -18,9 +18,8 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "modulo")
 public class Modulo {
     @Id
-    @GeneratedValue
     @Column(name = "id_modulo", length = 36, nullable = false, updatable = false)
-    private UUID id;
+    private UUID id = UUID.randomUUID(); 
 
     @NotBlank
     @Column(nullable = false)
@@ -87,9 +86,12 @@ public class Modulo {
         return curso;
     }
 
+    //Pendiente
     public void setCurso(Curso curso) {
-        this.curso = curso;
+        if(curso != null){
+            this.curso = curso;
+        }
+        
     }
-
     
 }
