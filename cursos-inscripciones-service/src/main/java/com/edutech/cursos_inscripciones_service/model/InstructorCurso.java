@@ -19,9 +19,8 @@ import jakarta.persistence.ForeignKey;
 public class InstructorCurso {
     
     @Id
-    @GeneratedValue
     @Column(name = "id_instructor_curso", length = 36, updatable = false, nullable = false)
-    private UUID id;
+    private UUID id = UUID.randomUUID(); 
 
     // ID del instructor que proviene del microservicio usuarios-service
     @NotNull

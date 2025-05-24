@@ -24,9 +24,8 @@ import jakarta.validation.constraints.NotNull;
 public class Curso {
 
     @Id
-    @GeneratedValue
     @Column(name = "id_curso", length = 36, updatable = false, nullable = false)
-    private UUID id;
+    private UUID id = UUID.randomUUID(); 
 
     @NotBlank
     @Column(nullable = false)
@@ -55,6 +54,8 @@ public class Curso {
     @Column(nullable = false)
     private TipoEstadoCurso estado;
 
+    //Lista de modulos que Curso posee
+    //Establece una relación bidireccional
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("numeroOrden ASC")
     private List<Modulo> modulos = new ArrayList<>();
@@ -145,6 +146,43 @@ public class Curso {
         this.modulos = modulos;
     }
 
-    
+    /**
+     * Agrega un módulo al curso si no está presente
+     * 
+     * @param modulo el módulo a agregar
+     * @return true si el módulo fue agregado exitosamente, false si ya existía
+     * @throws IllegalArgumentException si el modulo es null
+     */
+    public boolean agregarModulo(Modulo modulo){
+        if(modulo == null){
+            throw new IllegalArgumentException("El módulo no puede ser null.");
+        }
+
+        if(!modulos.contains(modulo)){
+            modulos.add(modulo);
+            modulo.setCurso(this); 
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Elimina un módulo del curso
+     * 
+     * @param modulo el módulo a eliminar
+     * @return true si el módulo fue exitosamente eliminado, false si no existía
+     * @throws IllegalArgumentException si el módulo es null
+     */
+    public boolean eliminarModulo(Modulo modulo){
+        if(modulo == null){
+            throw new IllegalArgumentException("El módulo no puede ser null.");
+        }
+
+        if(modulos.remove(modulo)){
+            modulo.setCurso(null);
+            return true;
+        }
+        return false;
+    }
 }
 
