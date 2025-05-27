@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.edutech.usuarios_service.model.Usuario;
 
 @Repository
-public class UsuariosRepository {
+public class UsuarioRepository {
     
     private List<Usuario> listaUsuarios = new ArrayList<>();
     public List<Usuario> obtenerUsuarios() {
