@@ -3,68 +3,132 @@ package com.edutech.cursos_inscripciones_service.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+
+import com.edutech.cursos_inscripciones_service.exception.ModuloDuplicadoException;
+import com.edutech.cursos_inscripciones_service.exception.ModuloInexistenteException;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+ * Entidad que representa un curso en la plataforma.
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "curso")
 public class Curso {
 
+    /**
+     * Identificador único del curso (UUID).
+     */
     @Id
     @Column(name = "id_curso", length = 36, updatable = false, nullable = false)
-    private UUID id = UUID.randomUUID(); 
+    private UUID id;
 
+    /**
+     * Título del curso.
+     */
     @NotBlank
-    @Column(nullable = false)
+    @Size(max = 255)
+    @Column(nullable = false, length = 255)
     private String titulo;
 
+    /**
+     * Descripción detallada del curso.
+     */
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    /**
+     * Fecha de creación del curso.
+     */
     @NotNull
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDate fechaCreacion;
 
+    /**
+     * Fecha de última actualización del curso.
+     */
     @Column(name = "fecha_actualizacion")
     private LocalDate fechaActualizacion;
 
+    /**
+     * Duración total del curso en horas.
+     */
+    @Min(1)
     @Column(name = "duracion_horas")
     private int duracionHoras;
 
+    /**
+     * Número de orden del curso en la lista general.
+     */
     @NotNull
     @Min(1)
-    @Column(name= "numero_orden")
+    @Column(name = "numero_orden")
     private Integer numeroOrden;
 
+    /**
+     * Estado actual del curso (activo, inactivo, archivado, etc.).
+     */
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoEstadoCurso estado;
 
-    //Lista de modulos que Curso posee
-    //Establece una relación bidireccional
+    /**
+     * Lista de módulos asociados al curso.
+     * Relación bidireccional con la entidad Modulo.
+     */
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("numeroOrden ASC")
     private List<Modulo> modulos = new ArrayList<>();
-    
-    public Curso() {
+
+    /**
+     * Inicializa automáticamente el ID y la fecha de creación antes de persistir.
+     */
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+        if (fechaCreacion == null) {
+            fechaCreacion = LocalDate.now();
+        }
     }
 
+    /**
+     * Constructor con generación automática del ID.
+     *
+     * @param titulo título del curso
+     * @param descripcion descripción del curso
+     * @param fechaCreacion fecha de creación
+     * @param fechaActualizacion fecha de actualización
+     * @param duracionHoras duración total en horas
+     * @param numeroOrden número de orden
+     * @param estado estado del curso
+     */
     public Curso(String titulo, String descripcion, LocalDate fechaCreacion, LocalDate fechaActualizacion,
-            int duracionHoras, Integer numeroOrden, TipoEstadoCurso estado) {
+                 int duracionHoras, Integer numeroOrden, TipoEstadoCurso estado) {
+        this.id = UUID.randomUUID();
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaCreacion = fechaCreacion;
@@ -72,117 +136,65 @@ public class Curso {
         this.duracionHoras = duracionHoras;
         this.numeroOrden = numeroOrden;
         this.estado = estado;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public LocalDate getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(LocalDate fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public LocalDate getFechaActualizacion() {
-        return fechaActualizacion;
-    }
-
-    public void setFechaActualizacion(LocalDate fechaActualizacion) {
-        this.fechaActualizacion = fechaActualizacion;
-    }
-
-    public int getDuracionHoras() {
-        return duracionHoras;
-    }
-
-    public void setDuracionHoras(int duracionHoras) {
-        this.duracionHoras = duracionHoras;
-    }
-
-    public Integer getNumeroOrden() {
-        return numeroOrden;
-    }
-
-    public void setNumeroOrden(Integer numeroOrden) {
-        this.numeroOrden = numeroOrden;
-    }
-
-    public TipoEstadoCurso getEstado() {
-        return estado;
-    }
-
-    public void setEstado(TipoEstadoCurso estado) {
-        this.estado = estado;
-    }
-
-    public List<Modulo> getModulos() {
-        return modulos;
-    }
-
-    public void setModulos(List<Modulo> modulos) {
-        this.modulos = modulos;
     }
 
     /**
-     * Agrega un módulo al curso si no está presente
-     * 
+     * Agrega un módulo al curso si no está presente.
+     *
      * @param modulo el módulo a agregar
-     * @return true si el módulo fue agregado exitosamente, false si ya existía
-     * @throws IllegalArgumentException si el modulo es null
+     * @throws IllegalArgumentException si el módulo es null
+     * @throws ModuloDuplicadoException si el módulo ya existe en el curso
      */
-    public boolean agregarModulo(Modulo modulo){
-        if(modulo == null){
+    public void agregarModulo(Modulo modulo) {
+        if (modulo == null) {
             throw new IllegalArgumentException("El módulo no puede ser null.");
         }
-
-        if(!modulos.contains(modulo)){
-            modulos.add(modulo);
-            modulo.setCurso(this); 
-            return true;
+        if (modulos.contains(modulo)) {
+            throw new ModuloDuplicadoException("El módulo con título '" + modulo.getTitulo() + "' ya existe en el curso.");
         }
-        return false;
+        modulos.add(modulo);
+        modulo.setCurso(this);
     }
 
     /**
-     * Elimina un módulo del curso
-     * 
+     * Elimina un módulo del curso si existe.
+     *
      * @param modulo el módulo a eliminar
-     * @return true si el módulo fue exitosamente eliminado, false si no existía
      * @throws IllegalArgumentException si el módulo es null
+     * @throws ModuloInexistenteException si el módulo no existe en el curso
      */
-    public boolean eliminarModulo(Modulo modulo){
-        if(modulo == null){
+    public void eliminarModulo(Modulo modulo) {
+        if (modulo == null) {
             throw new IllegalArgumentException("El módulo no puede ser null.");
         }
-
-        if(modulos.remove(modulo)){
-            modulo.setCurso(null);
-            return true;
+        if (!modulos.contains(modulo)) {
+            throw new ModuloInexistenteException("El módulo con título '" + modulo.getTitulo() + "' no existe en el curso.");
         }
-        return false;
+        modulos.remove(modulo);
+        modulo.setCurso(null);
+    }
+
+    /**
+     * Compara dos cursos por su ID.
+     *
+     * @param o el objeto a comparar
+     * @return true si tienen el mismo ID
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Curso curso = (Curso) o;
+        return id != null && id.equals(curso.id);
+    }
+
+    /**
+     * Genera el hashCode del curso basado en su ID.
+     *
+     * @return el código hash
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
-
