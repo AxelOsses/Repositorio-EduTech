@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import com.edutech.cursos_inscripciones_service.exception.ModuloDuplicadoException;
 import com.edutech.cursos_inscripciones_service.exception.ModuloInexistenteException;
@@ -14,6 +13,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
@@ -38,11 +39,12 @@ import lombok.NoArgsConstructor;
 public class Curso {
 
     /**
-     * Identificador único del curso (UUID).
+     * Identificador único del curso.
      */
     @Id
-    @Column(name = "id_curso", length = 36, updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
+    @Column(name = "id_curso", updatable = false, nullable = false)
+    private Long id;
 
     /**
      * Título del curso.
@@ -111,13 +113,10 @@ public class Curso {
 
 
     /**
-     * Inicializa automáticamente el ID y la fecha de creación antes de persistir.
+     * Inicializa automáticamente la fecha de creación antes de persistir.
      */
     @PrePersist
     public void prePersist() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
         if (fechaCreacion == null) {
             fechaCreacion = LocalDate.now();
         }
@@ -136,7 +135,6 @@ public class Curso {
      */
     public Curso(String titulo, String descripcion, LocalDate fechaCreacion, LocalDate fechaActualizacion,
                  int duracionHoras, Integer numeroOrden, TipoEstadoCurso estado) {
-        this.id = UUID.randomUUID();
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaCreacion = fechaCreacion;

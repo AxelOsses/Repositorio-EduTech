@@ -1,14 +1,14 @@
 package com.edutech.cursos_inscripciones_service.model;
 
-import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,9 +24,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "evaluacion")
 public class Evaluacion {
+
+    /**
+     * Identificador único de la evaluación
+     */
     @Id
-    @Column(name = "id_evaluacion", nullable = false, updatable = false, length = 36)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
+    @Column(name = "id_evaluacion", updatable = false, nullable = false)
+    private Long id;
 
     @NotBlank
     @Size(max = 255)
@@ -53,15 +58,6 @@ public class Evaluacion {
                 foreignKey = @ForeignKey(name = "fk_evaluacion_tipo_evaluacion"))
     private TipoEvaluacion tipoEvaluacion;
 
-    /**
-     * Genera automáticamente un UUID antes de persistir si no está presente.
-     */
-    @PrePersist
-    public void prePersist() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
 
     /**
      * Constructor para crear una asignación con generación automática de ID.
@@ -72,7 +68,6 @@ public class Evaluacion {
      * @param tipoEvaluacion el tipo de evaluacion
      */
     public Evaluacion(String nombre, String descripcion, Modulo modulo, Curso curso, TipoEvaluacion tipoEvaluacion) {
-        this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.modulo = modulo;
