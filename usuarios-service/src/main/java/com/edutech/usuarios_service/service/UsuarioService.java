@@ -1,7 +1,6 @@
 package com.edutech.usuarios_service.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
     
-    public Usuario findById(UUID id) {
+    public Usuario findById(Long id) {
         return usuarioRepository.findById(id).get();
     }
 
@@ -30,7 +29,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public void delete(UUID id) {
+    public void delete(Long id) {
         usuarioRepository.deleteById(id);
     }
 }

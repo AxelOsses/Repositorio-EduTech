@@ -1,7 +1,6 @@
 package com.edutech.usuarios_service.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +44,7 @@ public class UsuarioRolController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioRol> buscar(@PathVariable("id") UUID id) {
+    public ResponseEntity<UsuarioRol> buscar(@PathVariable("id") Long id) {
         try {
             UsuarioRol usuarioRol = usuarioRolService.findById(id);
             if (usuarioRol == null) {
@@ -58,7 +57,7 @@ public class UsuarioRolController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioRol> actualizar(@PathVariable("id") UUID id, @RequestBody UsuarioRol usuarioRol) {
+    public ResponseEntity<UsuarioRol> actualizar(@PathVariable("id") Long id, @RequestBody UsuarioRol usuarioRol) {
         try {
             UsuarioRol usur = usuarioRolService.findById(id);
             usur.setId(id);
@@ -73,7 +72,7 @@ public class UsuarioRolController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) {
         try {
             usuarioRolService.delete(id);
             return ResponseEntity.noContent().build();

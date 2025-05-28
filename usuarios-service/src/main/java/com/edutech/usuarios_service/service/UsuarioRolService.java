@@ -1,7 +1,6 @@
 package com.edutech.usuarios_service.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class UsuarioRolService {
         return usuarioRolRepository.findAll();
     }
     
-    public UsuarioRol findById(UUID id) {
+    public UsuarioRol findById(Long id) {
         return usuarioRolRepository.findById(id).get();
     }
 
@@ -30,7 +29,7 @@ public class UsuarioRolService {
         return usuarioRolRepository.save(usuarioRol);
     }
 
-    public void delete(UUID id) {
+    public void delete(Long id) {
         usuarioRolRepository.deleteById(id);
     }
 }
