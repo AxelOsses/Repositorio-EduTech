@@ -15,7 +15,7 @@ public class UsuarioRol {
 
     @Id
     @Column(name = "id_usuario_rol", length = 36, nullable = false, updatable = false)
-    private UUID id = UUID.randomUUID(); 
+    private UUID id; 
 
     @Column(name = "fecha_asignacion", nullable = false)
     private LocalDateTime fechaAsignacion;
@@ -28,7 +28,24 @@ public class UsuarioRol {
     @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
 
+    /**
+     * Genera automáticamente un UUID antes de persistir si no está presente.
+     */
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+    }
+
+    /**
+     * Constructor para crear una asignación con generación automática de ID.
+     * @param usuario usuario al que se le otorga el rol
+     * @param rol rol que se le otorga al usuario
+     * @param fechaAsignacion fecha actual en que se asigna el rol
+     */
     public UsuarioRol(Usuario usuario, Rol rol) {
+        this.id = UUID.randomUUID();
         this.usuario = usuario;
         this.rol = rol;
         this.fechaAsignacion = LocalDateTime.now();
