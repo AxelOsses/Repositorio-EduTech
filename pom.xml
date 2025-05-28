@@ -13,9 +13,7 @@
   <modules>
     <module>usuarios-service</module>
     <module>cursos-inscripciones-service</module>
-    <module>contenidos-service</module>
     <module>ventas-service</module>
-    <module>soporte-service</module>
   </modules>
 
   <properties>

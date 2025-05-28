@@ -17,7 +17,7 @@ public class Usuario {
 
     @Id
     @Column(name = "id_usuario", length = 36, nullable = false, updatable = false)
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(nullable = false)
     private String nombre;
@@ -43,6 +43,16 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude  // Evitar recursión en toString
     private List<UsuarioRol> roles = new ArrayList<>();
+
+    /**
+     * Genera automáticamente un UUID antes de persistir si no está presente.
+     */
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+    }
 
     @Builder
     public Usuario(String nombre, String apellido, String email, String username, String password,
