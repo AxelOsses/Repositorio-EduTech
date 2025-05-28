@@ -103,6 +103,14 @@ public class Curso {
     private List<Modulo> modulos = new ArrayList<>();
 
     /**
+     * Lista de categorias asociados al curso.
+     * Relación bidireccional con la entidad Categoria.
+     */
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CursoCategoria> cursoCategorias = new ArrayList<>();
+
+
+    /**
      * Inicializa automáticamente el ID y la fecha de creación antes de persistir.
      */
     @PrePersist
@@ -197,4 +205,31 @@ public class Curso {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    /**
+     * Asocia esta instancia de Curso con una nueva Categoria mediante la creación
+     * de una relación CursoCategoria. Esta operación también agrega la relación
+     * a la lista de cursoCategorias de la Categoria correspondiente, asegurando
+     * la consistencia bidireccional.
+     *
+     * @param categoria la Categoria con la que se desea asociar este Curso
+     */
+    public void addCategoria(Categoria categoria) {
+        CursoCategoria cc = new CursoCategoria(this, categoria);
+        cursoCategorias.add(cc);
+        categoria.getCursoCategorias().add(cc);
+    }
+
+    /**
+     * Elimina la relación entre esta instancia de Curso y la Categoria especificada.
+     * La operación también elimina la relación correspondiente de la lista de
+     * cursoCategorias de la Categoria, manteniendo la consistencia bidireccional.
+     *
+     * @param categoria la Categoria de la cual se desea eliminar la relación con este Curso
+     */
+    public void removeCategoria(Categoria categoria) {
+        cursoCategorias.removeIf(cc -> cc.getCategoria().equals(categoria));
+        categoria.getCursoCategorias().removeIf(cc -> cc.getCurso().equals(this));
+    }
+
 }
