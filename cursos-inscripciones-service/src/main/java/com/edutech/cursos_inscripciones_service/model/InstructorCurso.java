@@ -74,10 +74,11 @@ public class InstructorCurso {
      * @param curso curso asociado
      * @param fechaOtorgacion fecha de asignación
      */
-    public InstructorCurso(UUID instructorId, Curso curso, LocalDate fechaOtorgacion) {
+    public InstructorCurso(@NotNull UUID instructorId, @NotNull Curso curso, @NotNull LocalDate fechaOtorgacion) {
         this.id = UUID.randomUUID();
         this.instructorId = instructorId;
         this.curso = curso;
         this.fechaOtorgacion = fechaOtorgacion;
     }
+    
 }
