@@ -1,7 +1,6 @@
 package com.edutech.usuarios_service.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +47,7 @@ public class PermisoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Permiso> getPermisoById(@RequestParam UUID id) {
+    public ResponseEntity<Permiso> getPermisoById(@RequestParam Long id) {
         Permiso permiso = permisoService.findById(id);
         if (permiso == null) {
             return ResponseEntity.notFound().build();
@@ -57,7 +56,7 @@ public class PermisoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Permiso> updatePermiso(@PathVariable UUID id, @RequestBody Permiso permiso) {
+    public ResponseEntity<Permiso> updatePermiso(@PathVariable("id") Long id, @RequestBody Permiso permiso) {
         try {
             Permiso per = permisoService.findById(id);
             per.setId(id);
@@ -73,7 +72,7 @@ public class PermisoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePermiso(@PathVariable UUID id) {
+    public ResponseEntity<Void> deletePermiso(@PathVariable("id") Long id) {
         try {
             permisoService.deleteById(id);
             return ResponseEntity.noContent().build();

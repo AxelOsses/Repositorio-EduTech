@@ -14,9 +14,13 @@ import lombok.*;
 @Builder
 public class Rol {
 
+    /**
+     * Identificador único del CursoCategoria.
+     */
     @Id
-    @Column(name = "id_rol", nullable = false, updatable = false)
-    private UUID id; 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
+    @Column(name = "id_curso", updatable = false, nullable = false)
+    private Long id;
 
     @Column(nullable = false)
     private String nombre;
@@ -43,15 +47,6 @@ public class Rol {
     @ToString.Exclude
     private Set<Permiso> permisos = new HashSet<>();
 
-    /**
-     * Genera automáticamente un UUID antes de persistir si no está presente.
-     */
-    @PrePersist
-    public void prePersist() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
 
     /**
      * Constructor para crear una asignación con generación automática de ID.
@@ -59,7 +54,6 @@ public class Rol {
      * @param descripcion descipcion del rol
      */
     public Rol(String nombre, String descripcion, LocalDateTime fechaCreacion, boolean estaActivo) {
-        this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaCreacion = (fechaCreacion != null) ? fechaCreacion : LocalDateTime.now();

@@ -3,7 +3,6 @@ package com.edutech.usuarios_service.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.*;
@@ -15,9 +14,13 @@ import lombok.*;
 @NoArgsConstructor 
 public class Usuario {
 
+    /**
+     * Identificador único del usuario.
+     */
     @Id
-    @Column(name = "id_usuario", length = 36, nullable = false, updatable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
+    @Column(name = "id_usuario", updatable = false, nullable = false)
+    private Long id;
 
     @Column(nullable = false)
     private String nombre;
@@ -44,20 +47,10 @@ public class Usuario {
     @ToString.Exclude  // Evitar recursión en toString
     private List<UsuarioRol> roles = new ArrayList<>();
 
-    /**
-     * Genera automáticamente un UUID antes de persistir si no está presente.
-     */
-    @PrePersist
-    public void prePersist() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
 
     @Builder
     public Usuario(String nombre, String apellido, String email, String username, String password,
                    LocalDateTime fechaCreacion, Boolean estaActivo) {
-        this.id = UUID.randomUUID();
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;

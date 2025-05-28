@@ -1,7 +1,6 @@
 package com.edutech.usuarios_service.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class PermisoService {
         return permisoRepository.findAll();
     }   
 
-    public Permiso findById(UUID id) {
+    public Permiso findById(Long id) {
         return permisoRepository.findById(id).orElse(null);
 
     }
@@ -31,7 +30,7 @@ public class PermisoService {
         return permisoRepository.save(permiso);
     }
 
-    public void deleteById(UUID id) {
+    public void deleteById(Long id) {
         permisoRepository.deleteById(id);
     }
 }

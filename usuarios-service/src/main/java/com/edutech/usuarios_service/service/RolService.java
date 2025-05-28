@@ -1,7 +1,6 @@
 package com.edutech.usuarios_service.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class RolService {
         return rolRepository.findAll();
     }
 
-    public Rol findById(UUID id) {
+    public Rol findById(Long id) {
         return rolRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +29,7 @@ public class RolService {
         return rolRepository.save(rol);
     }
 
-    public void deleteById(UUID id) {
+    public void deleteById(Long id) {
         rolRepository.deleteById(id);
     }
 }

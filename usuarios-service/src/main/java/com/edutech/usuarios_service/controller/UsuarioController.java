@@ -1,7 +1,6 @@
 package com.edutech.usuarios_service.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +43,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscar(@PathVariable("id") UUID id) {
+    public ResponseEntity<Usuario> buscar(@PathVariable("id") Long id) {
         try {
             Usuario usuario = usuarioService.findById(id);
             if (usuario == null) {
@@ -57,7 +56,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> actualizar(@PathVariable("id") UUID id, @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> actualizar(@PathVariable("id") Long id, @RequestBody Usuario usuario) {
         try{
             Usuario usu = usuarioService.findById(id);
             usu.setId(id);
@@ -77,7 +76,7 @@ public class UsuarioController {
     }
 
      @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> eliminar(@PathVariable("id") Long id) {
         try {
             usuarioService.delete(id);
             return ResponseEntity.noContent().build();
