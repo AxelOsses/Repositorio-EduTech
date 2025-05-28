@@ -11,17 +11,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.edutech.usuarios_service.model.Rol;
 import com.edutech.usuarios_service.service.RolService;
 
+@RestController
+@RequestMapping("/api/v1/rol")
 public class RolController {
 
     @Autowired
     private RolService rolService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Rol>> getAllRols() {
         List<Rol> rols = rolService.findAll();
         if (rols.isEmpty()) {
@@ -30,7 +34,7 @@ public class RolController {
         return ResponseEntity.ok(rols);
     }
     
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Rol> createRol(@RequestBody Rol rol) {
         if (rol.getId() != null) {
             return ResponseEntity.badRequest().build();
