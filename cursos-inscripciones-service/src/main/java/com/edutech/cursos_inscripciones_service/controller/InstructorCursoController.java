@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/instructor-cursos")
@@ -26,7 +25,7 @@ public class InstructorCursoController {
     }
 
     @GetMapping("/{id}")
-    public Optional<InstructorCurso> getInstructorCursoById(@PathVariable UUID id) {
+    public Optional<InstructorCurso> getInstructorCursoById(@PathVariable("id") Long id) {
         return instructorCursoService.getInstructorCursoById(id);
     }
 
@@ -36,7 +35,7 @@ public class InstructorCursoController {
     }
 
     @PutMapping("/{id}")
-    public InstructorCurso updateInstructorCurso(@PathVariable UUID id, @RequestBody InstructorCurso updatedInstructorCurso) {
+    public InstructorCurso updateInstructorCurso(@PathVariable("id") Long id, @RequestBody InstructorCurso updatedInstructorCurso) {
         // En este caso, como no tienes un método update en el service,
         // podemos simplemente guardar el objeto actualizado:
         updatedInstructorCurso.setId(id);  // Asegura que el ID es el mismo
@@ -44,7 +43,7 @@ public class InstructorCursoController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteInstructorCurso(@PathVariable UUID id) {
+    public void deleteInstructorCurso(@PathVariable("id") Long id) {
         instructorCursoService.deleteInstructorCurso(id);
     }
 }

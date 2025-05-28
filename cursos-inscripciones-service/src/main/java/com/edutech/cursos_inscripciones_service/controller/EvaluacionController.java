@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/evaluaciones")
@@ -26,7 +25,7 @@ public class EvaluacionController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Evaluacion> getEvaluacionById(@PathVariable UUID id) {
+    public Optional<Evaluacion> getEvaluacionById(@PathVariable("id") Long id) {
         return evaluacionService.getEvaluacionById(id);
     }
 
@@ -36,13 +35,13 @@ public class EvaluacionController {
     }
 
     @PutMapping("/{id}")
-    public Evaluacion updateEvaluacion(@PathVariable UUID id, @RequestBody Evaluacion updatedEvaluacion) {
+    public Evaluacion updateEvaluacion(@PathVariable("id") Long id, @RequestBody Evaluacion updatedEvaluacion) {
         updatedEvaluacion.setId(id);
         return evaluacionService.saveEvaluacion(updatedEvaluacion);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEvaluacion(@PathVariable UUID id) {
+    public void deleteEvaluacion(@PathVariable("id") Long id) {
         evaluacionService.deleteEvaluacion(id);
     }
 }

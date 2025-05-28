@@ -2,12 +2,12 @@ package com.edutech.cursos_inscripciones_service.controller;
 
 import com.edutech.cursos_inscripciones_service.model.Inscripcion;
 import com.edutech.cursos_inscripciones_service.service.InscripcionService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/inscripciones")
@@ -26,7 +26,7 @@ public class InscripcionController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Inscripcion> getInscripcionById(@PathVariable UUID id) {
+    public Optional<Inscripcion> getInscripcionById(@PathVariable("id") Long id) {
         return inscripcionService.getInscripcionById(id);
     }
 
@@ -36,13 +36,13 @@ public class InscripcionController {
     }
 
     @PutMapping("/{id}")
-    public Inscripcion updateInscripcion(@PathVariable UUID id, @RequestBody Inscripcion updatedInscripcion) {
+    public Inscripcion updateInscripcion(@PathVariable("id") Long id, @RequestBody Inscripcion updatedInscripcion) {
         updatedInscripcion.setId(id);
         return inscripcionService.saveInscripcion(updatedInscripcion);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteInscripcion(@PathVariable UUID id) {
+    public void deleteInscripcion(@PathVariable("id") Long id) {
         inscripcionService.deleteInscripcion(id);
     }
 }

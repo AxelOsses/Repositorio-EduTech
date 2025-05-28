@@ -2,14 +2,14 @@ package com.edutech.cursos_inscripciones_service.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -25,9 +25,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "categoria")
 public class Categoria {
 
+    /**
+     * Identificador único de la categoria.
+     */
     @Id
-    @Column(name = "id_categoria", nullable = false, updatable= false, length = 36)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
+    @Column(name = "id_categoria", updatable = false, nullable = false)
+    private Long id;
 
     @NotBlank
     @Size(max = 255)
@@ -47,18 +51,7 @@ public class Categoria {
      * @param nombre nombre de la categoría
      */
     public Categoria(String nombre) {
-        this.id = UUID.randomUUID();
         this.nombre = nombre;
-    }
-
-    /**
-     * Genera automáticamente un UUID antes de persistir si no está presente.
-     */
-    @PrePersist
-    public void prePersist() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
     }
 
     /**

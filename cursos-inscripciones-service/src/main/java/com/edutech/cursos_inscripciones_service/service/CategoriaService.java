@@ -2,7 +2,6 @@ package com.edutech.cursos_inscripciones_service.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
-    public Optional<Categoria> getCategoriaById(UUID id) {
+    public Optional<Categoria> getCategoriaById(Long id) {
         return categoriaRepository.findById(id);
     }
 
@@ -30,7 +29,7 @@ public class CategoriaService {
         return categoriaRepository.save(categoria);
     }
 
-    public void deleteCategoria(UUID id) {
+    public void deleteCategoria(Long id) {
         categoriaRepository.deleteById(id);
     }
 }

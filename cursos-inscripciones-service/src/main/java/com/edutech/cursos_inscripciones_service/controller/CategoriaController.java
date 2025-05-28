@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/categorias")
@@ -26,7 +25,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Categoria> getCategoriaById(@PathVariable UUID id) {
+    public Optional<Categoria> getCategoriaById(@PathVariable("id") Long id) {
         return categoriaService.getCategoriaById(id);
     }
 
@@ -36,13 +35,13 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public Categoria updateCategoria(@PathVariable UUID id, @RequestBody Categoria updatedCategoria) {
+    public Categoria updateCategoria(@PathVariable("id") Long id, @RequestBody Categoria updatedCategoria) {
         updatedCategoria.setId(id);
         return categoriaService.saveCategoria(updatedCategoria);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCategoria(@PathVariable UUID id) {
+    public void deleteCategoria(@PathVariable("id") Long id) {
         categoriaService.deleteCategoria(id);
     }
 }

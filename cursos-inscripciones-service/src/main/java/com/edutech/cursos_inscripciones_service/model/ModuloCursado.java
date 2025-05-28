@@ -1,16 +1,16 @@
 package com.edutech.cursos_inscripciones_service.model;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,9 +24,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "modulo_cursado")
 public class ModuloCursado {
+
+    /**
+     * Identificador único del ModuloCursado.
+     */
     @Id
-    @Column(name = "id_modulo_cursado", nullable = false, updatable = false, length = 36)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
+    @Column(name = "id_modulo_cursado", updatable = false, nullable = false)
+    private Long id;
 
     @NotNull
     @ManyToOne(optional = false)
@@ -51,16 +56,6 @@ public class ModuloCursado {
     private NotaEvaluacion notaEvaluacion;
 
     /**
-     * Genera automáticamente un UUID antes de persistir si no está presente.
-     */
-    @PrePersist
-    public void prePersist() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
-
-    /**
      * Constructor para crear una asignación con generación automática de ID.
      * @param progresoCurso progresoCurso al que pertenece moduloCursado
      * @param modulo modulo que se esta cursando
@@ -70,7 +65,6 @@ public class ModuloCursado {
      */
     public ModuloCursado(@NotNull ProgresoCurso progresoCurso, @NotNull Modulo modulo, @NotNull Boolean estaAprovado,
             LocalDate fechaAprobacion, NotaEvaluacion notaEvaluacion) {
-        this.id = UUID.randomUUID();        
         this.progresoCurso = progresoCurso;
         this.modulo = modulo;
         this.estaAprobado = estaAprovado;

@@ -1,15 +1,15 @@
 package com.edutech.cursos_inscripciones_service.model;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -32,15 +32,16 @@ public class InstructorCurso {
      * Identificador único del registro.
      */
     @Id
-    @Column(name = "id_instructor_curso", length = 36, nullable = false, updatable = false)
-    private UUID id = UUID.randomUUID();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
+    @Column(name = "id_instructor_curso", updatable = false, nullable = false)
+    private Long id;
 
     /**
      * Identificador del instructor, proveniente del microservicio usuarios-service.
      */
     @NotNull
     @Column(name = "id_usuario", nullable = false)
-    private UUID instructorId;
+    private Long instructorId;
 
     /**
      * Curso asociado (relación local hacia Curso.id).
@@ -59,23 +60,12 @@ public class InstructorCurso {
     private LocalDate fechaOtorgacion;
 
     /**
-     * Genera automáticamente un UUID antes de persistir si no está presente.
-     */
-    @PrePersist
-    public void prePersist() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
-
-    /**
      * Constructor para crear una asignación con generación automática de ID.
      * @param instructorId identificador del instructor
      * @param curso curso asociado
      * @param fechaOtorgacion fecha de asignación
      */
-    public InstructorCurso(@NotNull UUID instructorId, @NotNull Curso curso, @NotNull LocalDate fechaOtorgacion) {
-        this.id = UUID.randomUUID();
+    public InstructorCurso(@NotNull Long instructorId, @NotNull Curso curso, @NotNull LocalDate fechaOtorgacion) {
         this.instructorId = instructorId;
         this.curso = curso;
         this.fechaOtorgacion = fechaOtorgacion;

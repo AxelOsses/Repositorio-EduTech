@@ -2,7 +2,6 @@ package com.edutech.cursos_inscripciones_service.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class ProgresoCursoService {
         return progresoCursoRepository.findAll();
     }
 
-    public Optional<ProgresoCurso> getProgresoCursoById(UUID id) {
+    public Optional<ProgresoCurso> getProgresoCursoById(Long id) {
         return progresoCursoRepository.findById(id);
     }
 
@@ -30,7 +29,7 @@ public class ProgresoCursoService {
         return progresoCursoRepository.save(progresoCurso);
     }
 
-    public void deleteProgresoCurso(UUID id) {
+    public void deleteProgresoCurso(Long id) {
         progresoCursoRepository.deleteById(id);
     }
 }

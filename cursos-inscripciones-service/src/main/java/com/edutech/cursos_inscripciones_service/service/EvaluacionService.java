@@ -2,7 +2,6 @@ package com.edutech.cursos_inscripciones_service.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class EvaluacionService {
         return evaluacionRepository.findAll();
     }
 
-    public Optional<Evaluacion> getEvaluacionById(UUID id) {
+    public Optional<Evaluacion> getEvaluacionById(Long id) {
         return evaluacionRepository.findById(id);
     }
 
@@ -30,7 +29,7 @@ public class EvaluacionService {
         return evaluacionRepository.save(evaluacion);
     }
 
-    public void deleteEvaluacion(UUID id) {
+    public void deleteEvaluacion(Long id) {
         evaluacionRepository.deleteById(id);
     }
 }

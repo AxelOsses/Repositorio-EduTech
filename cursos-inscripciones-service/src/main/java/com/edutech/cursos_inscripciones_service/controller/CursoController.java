@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/cursos")
@@ -26,7 +25,7 @@ public class CursoController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Curso> getCursoById(@PathVariable UUID id) {
+    public Optional<Curso> getCursoById(@PathVariable("id") Long id) {
         return cursoService.getCursoById(id);
     }
 
@@ -36,13 +35,13 @@ public class CursoController {
     }
 
     @PutMapping("/{id}")
-    public Curso updateCurso(@PathVariable UUID id, @RequestBody Curso updatedCurso) {
+    public Curso updateCurso(@PathVariable("id") Long id, @RequestBody Curso updatedCurso) {
         updatedCurso.setId(id);
         return cursoService.saveCurso(updatedCurso);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCurso(@PathVariable UUID id) {
+    public void deleteCurso(@PathVariable("id") Long id) {
         cursoService.deleteCurso(id);
     }
 }

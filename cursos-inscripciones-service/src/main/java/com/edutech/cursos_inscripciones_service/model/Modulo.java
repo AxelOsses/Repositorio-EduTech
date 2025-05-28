@@ -1,15 +1,15 @@
 package com.edutech.cursos_inscripciones_service.model;
 
-import java.util.UUID;
 import com.edutech.cursos_inscripciones_service.exception.ModuloDuplicadoException;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -28,9 +28,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "modulo")
 public class Modulo {
+
+    /**
+     * Identificador único del modulo.
+     */
+    /**
+     * Identificador único del curso.
+     */
     @Id
-    @Column(name = "id_modulo", length = 36, nullable = false, updatable = false)
-    private UUID id = UUID.randomUUID();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
+    @Column(name = "id_modulo", updatable = false, nullable = false)
+    private Long id;
 
     @NotBlank
     @Column(nullable = false)
@@ -51,16 +59,6 @@ public class Modulo {
     private Curso curso;
 
     /**
-     * Genera un UUID automático si no está presente antes de persistir.
-     */
-    @PrePersist
-    public void prePersist() {
-        if (id == null) {
-            id = UUID.randomUUID();
-        }
-    }
-
-    /**
      * Constructor con generación automática de ID.
      * @param titulo el título del módulo
      * @param descripcion la descripción
@@ -68,7 +66,6 @@ public class Modulo {
      * @param curso el curso asociado
      */
     public Modulo(String titulo, String descripcion, Integer numeroOrden, Curso curso) {
-        this.id = UUID.randomUUID();
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.numeroOrden = numeroOrden;

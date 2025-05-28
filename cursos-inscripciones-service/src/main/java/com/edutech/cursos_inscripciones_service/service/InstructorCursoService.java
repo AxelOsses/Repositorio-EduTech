@@ -2,8 +2,6 @@ package com.edutech.cursos_inscripciones_service.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 
 import com.edutech.cursos_inscripciones_service.model.InstructorCurso;
@@ -22,7 +20,7 @@ public class InstructorCursoService {
         return instructorCursoRepository.findAll();
     }
 
-    public Optional<InstructorCurso> getInstructorCursoById(UUID id) {
+    public Optional<InstructorCurso> getInstructorCursoById(Long id) {
         return instructorCursoRepository.findById(id);
     }
 
@@ -30,7 +28,7 @@ public class InstructorCursoService {
         return instructorCursoRepository.save(instructorCurso);
     }
 
-    public void deleteInstructorCurso(UUID id) {
+    public void deleteInstructorCurso(Long id) {
         instructorCursoRepository.deleteById(id);
     }
 }
