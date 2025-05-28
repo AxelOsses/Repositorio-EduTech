@@ -9,29 +9,28 @@ import org.springframework.stereotype.Service;
 import com.edutech.usuarios_service.model.Usuario;
 import com.edutech.usuarios_service.repository.UsuarioRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class UsuarioService {
-    
+   
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> obtenerUsuarios() {
-        return usuarioRepository.obtenerUsuarios();
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
     }
-    public Usuario guardar(Usuario usuario) {
-        return usuarioRepository.guardar(usuario);
-    }
-    public Usuario buscarPorId(UUID id) {
-        return usuarioRepository.buscarPorId(id);
-    }
-    public Usuario buscarPorEmail(String email) {
-        return usuarioRepository.buscarPorEmail(email);
-    }
-    public Usuario actualizar(Usuario usuario) {
-        return usuarioRepository.actualizar(usuario);
-    }
-    public void eliminar(UUID id) {
-        usuarioRepository.eliminar(id);
+    
+    public Usuario findById(UUID id) {
+        return usuarioRepository.findById(id).get();
     }
 
+    public Usuario save(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    public void delete(UUID id) {
+        usuarioRepository.deleteById(id);
+    }
 }
