@@ -3,7 +3,6 @@ package com.edutech.cursos_inscripciones_service.controller;
 import com.edutech.cursos_inscripciones_service.model.ProgresoCurso;
 import com.edutech.cursos_inscripciones_service.service.ProgresoCursoService;
 
-import org.hibernate.validator.constraints.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
