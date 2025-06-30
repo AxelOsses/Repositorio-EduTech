@@ -5,12 +5,16 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
+import org.springframework.hateoas.RepresentationModel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "usuario_rol")
 @Data
 @NoArgsConstructor 
 @AllArgsConstructor
-public class UsuarioRol {
+@EqualsAndHashCode(callSuper = false)
+public class UsuarioRol extends RepresentationModel<UsuarioRol> {
 
     /**
      * Identificador único del UsuarioRol.
@@ -25,10 +29,12 @@ public class UsuarioRol {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
+    @JsonBackReference  // Evitar recursión infinita en JSON
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false)
+    @JsonBackReference  // Evitar recursión infinita en JSON
     private Rol rol;
 
     /**
