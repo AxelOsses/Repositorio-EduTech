@@ -12,7 +12,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Usuarios Service API")
+                        .title("API EduTech - Usuario Service")
                 );
     }
 } 
