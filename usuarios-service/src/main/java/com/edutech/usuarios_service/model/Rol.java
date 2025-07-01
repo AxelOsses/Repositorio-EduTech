@@ -9,6 +9,7 @@ import lombok.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "rol")
@@ -47,7 +48,7 @@ public class Rol extends RepresentationModel<Rol> {
 
     @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude  // Evitar recursión en toString
-    @JsonManagedReference  // Evitar recursión infinita en JSON
+    @JsonIgnore  // No incluir usuarios en respuestas JSON
     @Schema(description = "Usuarios que tienen este rol")
     private List<UsuarioRol> usuarios = new ArrayList<>();
 

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Entity
 @Table(name = "usuario")
@@ -19,6 +20,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor 
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "Modelo de Usuario")
+@JsonPropertyOrder({
+    "id", "nombre", "apellido", "email", "username", 
+    "fechaCreacion", "estaActivo", "nombresRoles", "nombresPermisos"
+})
 public class Usuario extends RepresentationModel<Usuario> {
 
     /**
@@ -61,7 +66,7 @@ public class Usuario extends RepresentationModel<Usuario> {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude  // Evitar recursión en toString
-    @JsonManagedReference  // Evitar recursión infinita en JSON
+    @JsonIgnore  // No incluir roles en respuestas JSON
     @Schema(description = "Roles asignados al usuario")
     private List<UsuarioRol> roles = new ArrayList<>();
 
@@ -79,16 +84,39 @@ public class Usuario extends RepresentationModel<Usuario> {
     }
 
     // Métodos específicos
+    @JsonIgnore
     public List<UsuarioRol> getRoles() {
         return new ArrayList<>(roles);  // Encapsulamiento
     }
 
+    @JsonIgnore
     public List<Rol> getRolesDirectos() {
         return roles.stream()
                     .map(UsuarioRol::getRol)
                     .collect(Collectors.toList());
     }
 
+    /**
+     * Obtiene solo los nombres de los roles del usuario para mostrar en JSON
+     */
+    public List<String> getNombresRoles() {
+        return roles.stream()
+                    .map(ur -> ur.getRol().getNombre())
+                    .collect(Collectors.toList());
+    }
+
+    /**
+     * Obtiene solo los nombres de los permisos del usuario para mostrar en JSON
+     */
+    public List<String> getNombresPermisos() {
+        return roles.stream()
+                    .flatMap(ur -> ur.getRol().getPermisos().stream())
+                    .map(permiso -> permiso.getNombre())
+                    .distinct()
+                    .collect(Collectors.toList());
+    }
+
+    @JsonIgnore
     public boolean agregarRol(Rol rol) {
         if (rol == null) {
             throw new IllegalArgumentException("El rol no puede ser null");
@@ -103,6 +131,7 @@ public class Usuario extends RepresentationModel<Usuario> {
         return false;
     }
 
+    @JsonIgnore
     public boolean eliminarRol(Rol rol) {
         if (rol == null) {
             throw new IllegalArgumentException("El rol no puede ser null");
