@@ -16,6 +16,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
 @AllArgsConstructor
@@ -43,6 +44,7 @@ public class Categoria {
      * Relación bidireccional con la entidad Curso.
      */
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<CursoCategoria> cursoCategorias = new ArrayList<>();
 
 

@@ -2,12 +2,14 @@ package com.edutech.cursos_inscripciones_service.controller;
 
 import com.edutech.cursos_inscripciones_service.model.ProgresoCurso;
 import com.edutech.cursos_inscripciones_service.service.ProgresoCursoService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edutech.cursos_inscripciones_service.exception.ResourceNotFoundException;
+import com.edutech.cursos_inscripciones_service.exception.ConflictException;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/progresos-curso")
@@ -15,35 +17,49 @@ public class ProgresoCursoController {
 
     private final ProgresoCursoService progresoCursoService;
 
-    @Autowired
     public ProgresoCursoController(ProgresoCursoService progresoCursoService) {
         this.progresoCursoService = progresoCursoService;
     }
 
     @GetMapping
-    public List<ProgresoCurso> getAllProgresosCursos() {
-        return progresoCursoService.getAllProgresoCursos();
+    public ResponseEntity<List<ProgresoCurso>> getAllProgresosCursos() {
+        List<ProgresoCurso> progresos = progresoCursoService.getAllProgresoCursos();
+        return ResponseEntity.ok(progresos);
     }
 
     @GetMapping("/{id}")
-    public Optional<ProgresoCurso> getProgresoCursoById(@PathVariable("id") Long id) {
-        return progresoCursoService.getProgresoCursoById(id);
+    public ResponseEntity<ProgresoCurso> getProgresoCursoById(@PathVariable("id") Long id) {
+        return progresoCursoService.getProgresoCursoById(id)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException("ProgresoCurso no encontrado con id: " + id));
     }
 
     @PostMapping
-    public ProgresoCurso createProgresoCurso(@RequestBody ProgresoCurso progresoCurso) {
-        return progresoCursoService.saveProgresoCurso(progresoCurso);
+    public ResponseEntity<ProgresoCurso> createProgresoCurso(@Valid @RequestBody ProgresoCurso progresoCurso) {
+        if (progresoCurso.getId() != null && progresoCursoService.getProgresoCursoById(progresoCurso.getId()).isPresent()) {
+            throw new ConflictException("Ya existe un ProgresoCurso con id: " + progresoCurso.getId());
+        }
+        ProgresoCurso created = progresoCursoService.saveProgresoCurso(progresoCurso);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
-    public ProgresoCurso updateProgresoCurso(@PathVariable("id") Long id, @RequestBody ProgresoCurso updatedProgresoCurso) {
+    public ResponseEntity<ProgresoCurso> updateProgresoCurso(@PathVariable("id") Long id, @Valid @RequestBody ProgresoCurso updatedProgresoCurso) {
+        if (!progresoCursoService.getProgresoCursoById(id).isPresent()) {
+            throw new ResourceNotFoundException("ProgresoCurso no encontrado con id: " + id);
+        }
         updatedProgresoCurso.setId(id);
-        return progresoCursoService.saveProgresoCurso(updatedProgresoCurso);
+        ProgresoCurso updated = progresoCursoService.saveProgresoCurso(updatedProgresoCurso);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProgresoCurso(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteProgresoCurso(@PathVariable("id") Long id) {
+        if (!progresoCursoService.getProgresoCursoById(id).isPresent()) {
+            throw new ResourceNotFoundException("ProgresoCurso no encontrado con id: " + id);
+        }
         progresoCursoService.deleteProgresoCurso(id);
+        return ResponseEntity.noContent().build();
     }
 }
 

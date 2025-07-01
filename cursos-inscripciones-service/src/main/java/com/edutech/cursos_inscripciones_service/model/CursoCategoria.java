@@ -2,6 +2,7 @@ package com.edutech.cursos_inscripciones_service.model;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,12 +41,14 @@ public class CursoCategoria {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false, 
                 foreignKey = @ForeignKey(name = "fk_curso_categoria_curso"))
+    @JsonBackReference
     private Curso curso;
 
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_categoria", nullable = false, 
                 foreignKey = @ForeignKey(name = "fk_curso_categoria_categoria"))
+    @JsonBackReference
     private Categoria categoria;
 
     /**

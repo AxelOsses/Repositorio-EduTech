@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Data
 @AllArgsConstructor
@@ -35,6 +36,7 @@ public class Inscripcion {
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false, foreignKey = @ForeignKey(name = "fk_inscripcion_curso"))
+    @JsonBackReference
     private Curso curso;
 
     @NotNull

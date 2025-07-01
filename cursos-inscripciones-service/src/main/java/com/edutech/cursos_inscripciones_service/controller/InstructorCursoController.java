@@ -2,11 +2,14 @@ package com.edutech.cursos_inscripciones_service.controller;
 
 import com.edutech.cursos_inscripciones_service.model.InstructorCurso;
 import com.edutech.cursos_inscripciones_service.service.InstructorCursoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edutech.cursos_inscripciones_service.exception.ResourceNotFoundException;
+import com.edutech.cursos_inscripciones_service.exception.ConflictException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/instructor-cursos")
@@ -14,37 +17,49 @@ public class InstructorCursoController {
 
     private final InstructorCursoService instructorCursoService;
 
-    @Autowired
     public InstructorCursoController(InstructorCursoService instructorCursoService) {
         this.instructorCursoService = instructorCursoService;
     }
 
     @GetMapping
-    public List<InstructorCurso> getAllInstructoresCursos() {
-        return instructorCursoService.getAllInstructoresCursos();
+    public ResponseEntity<List<InstructorCurso>> getAllInstructoresCursos() {
+        List<InstructorCurso> instructores = instructorCursoService.getAllInstructoresCursos();
+        return ResponseEntity.ok(instructores);
     }
 
     @GetMapping("/{id}")
-    public Optional<InstructorCurso> getInstructorCursoById(@PathVariable("id") Long id) {
-        return instructorCursoService.getInstructorCursoById(id);
+    public ResponseEntity<InstructorCurso> getInstructorCursoById(@PathVariable("id") Long id) {
+        return instructorCursoService.getInstructorCursoById(id)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException("InstructorCurso no encontrado con id: " + id));
     }
 
     @PostMapping
-    public InstructorCurso createInstructorCurso(@RequestBody InstructorCurso instructorCurso) {
-        return instructorCursoService.saveInstructorCurso(instructorCurso);
+    public ResponseEntity<InstructorCurso> createInstructorCurso(@Valid @RequestBody InstructorCurso instructorCurso) {
+        if (instructorCurso.getId() != null && instructorCursoService.getInstructorCursoById(instructorCurso.getId()).isPresent()) {
+            throw new ConflictException("Ya existe un InstructorCurso con id: " + instructorCurso.getId());
+        }
+        InstructorCurso created = instructorCursoService.saveInstructorCurso(instructorCurso);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
-    public InstructorCurso updateInstructorCurso(@PathVariable("id") Long id, @RequestBody InstructorCurso updatedInstructorCurso) {
-        // En este caso, como no tienes un método update en el service,
-        // podemos simplemente guardar el objeto actualizado:
-        updatedInstructorCurso.setId(id);  // Asegura que el ID es el mismo
-        return instructorCursoService.saveInstructorCurso(updatedInstructorCurso);
+    public ResponseEntity<InstructorCurso> updateInstructorCurso(@PathVariable("id") Long id, @Valid @RequestBody InstructorCurso updatedInstructorCurso) {
+        if (!instructorCursoService.getInstructorCursoById(id).isPresent()) {
+            throw new ResourceNotFoundException("InstructorCurso no encontrado con id: " + id);
+        }
+        updatedInstructorCurso.setId(id);
+        InstructorCurso updated = instructorCursoService.saveInstructorCurso(updatedInstructorCurso);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteInstructorCurso(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteInstructorCurso(@PathVariable("id") Long id) {
+        if (!instructorCursoService.getInstructorCursoById(id).isPresent()) {
+            throw new ResourceNotFoundException("InstructorCurso no encontrado con id: " + id);
+        }
         instructorCursoService.deleteInstructorCurso(id);
+        return ResponseEntity.noContent().build();
     }
 }
 

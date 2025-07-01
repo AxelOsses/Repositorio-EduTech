@@ -27,6 +27,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Entidad que representa un curso en la plataforma.
@@ -100,6 +101,7 @@ public class Curso {
      * Lista de módulos asociados al curso.
      * Relación bidireccional con la entidad Modulo.
      */
+    @JsonManagedReference
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("numeroOrden ASC")
     private List<Modulo> modulos = new ArrayList<>();
@@ -108,6 +110,7 @@ public class Curso {
      * Lista de categorias asociados al curso.
      * Relación bidireccional con la entidad Categoria.
      */
+    @JsonManagedReference
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CursoCategoria> cursoCategorias = new ArrayList<>();
 

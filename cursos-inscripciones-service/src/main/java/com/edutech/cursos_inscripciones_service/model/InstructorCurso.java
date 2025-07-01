@@ -16,6 +16,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * Entidad que representa la asignación de un instructor a un curso,
@@ -50,6 +51,7 @@ public class InstructorCurso {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_instructorcurso_curso"))
+    @JsonBackReference
     private Curso curso;
 
     /**

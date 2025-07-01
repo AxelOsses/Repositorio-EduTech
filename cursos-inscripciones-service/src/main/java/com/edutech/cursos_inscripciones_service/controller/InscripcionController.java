@@ -2,12 +2,14 @@ package com.edutech.cursos_inscripciones_service.controller;
 
 import com.edutech.cursos_inscripciones_service.model.Inscripcion;
 import com.edutech.cursos_inscripciones_service.service.InscripcionService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edutech.cursos_inscripciones_service.exception.ResourceNotFoundException;
+import com.edutech.cursos_inscripciones_service.exception.ConflictException;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/inscripciones")
@@ -15,34 +17,48 @@ public class InscripcionController {
 
     private final InscripcionService inscripcionService;
 
-    @Autowired
     public InscripcionController(InscripcionService inscripcionService) {
         this.inscripcionService = inscripcionService;
     }
 
     @GetMapping
-    public List<Inscripcion> getAllInscripciones() {
-        return inscripcionService.getAllInscripciones();
+    public ResponseEntity<List<Inscripcion>> getAllInscripciones() {
+        List<Inscripcion> inscripciones = inscripcionService.getAllInscripciones();
+        return ResponseEntity.ok(inscripciones);
     }
 
     @GetMapping("/{id}")
-    public Optional<Inscripcion> getInscripcionById(@PathVariable("id") Long id) {
-        return inscripcionService.getInscripcionById(id);
+    public ResponseEntity<Inscripcion> getInscripcionById(@PathVariable("id") Long id) {
+        return inscripcionService.getInscripcionById(id)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException("Inscripción no encontrada con id: " + id));
     }
 
     @PostMapping
-    public Inscripcion createInscripcion(@RequestBody Inscripcion inscripcion) {
-        return inscripcionService.saveInscripcion(inscripcion);
+    public ResponseEntity<Inscripcion> createInscripcion(@Valid @RequestBody Inscripcion inscripcion) {
+        if (inscripcion.getId() != null && inscripcionService.getInscripcionById(inscripcion.getId()).isPresent()) {
+            throw new ConflictException("Ya existe una inscripción con id: " + inscripcion.getId());
+        }
+        Inscripcion created = inscripcionService.saveInscripcion(inscripcion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
-    public Inscripcion updateInscripcion(@PathVariable("id") Long id, @RequestBody Inscripcion updatedInscripcion) {
+    public ResponseEntity<Inscripcion> updateInscripcion(@PathVariable("id") Long id, @Valid @RequestBody Inscripcion updatedInscripcion) {
+        if (!inscripcionService.getInscripcionById(id).isPresent()) {
+            throw new ResourceNotFoundException("Inscripción no encontrada con id: " + id);
+        }
         updatedInscripcion.setId(id);
-        return inscripcionService.saveInscripcion(updatedInscripcion);
+        Inscripcion updated = inscripcionService.saveInscripcion(updatedInscripcion);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteInscripcion(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteInscripcion(@PathVariable("id") Long id) {
+        if (!inscripcionService.getInscripcionById(id).isPresent()) {
+            throw new ResourceNotFoundException("Inscripción no encontrada con id: " + id);
+        }
         inscripcionService.deleteInscripcion(id);
+        return ResponseEntity.noContent().build();
     }
 }

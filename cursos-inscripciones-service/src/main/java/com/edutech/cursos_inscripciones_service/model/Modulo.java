@@ -1,6 +1,7 @@
 package com.edutech.cursos_inscripciones_service.model;
 
 import com.edutech.cursos_inscripciones_service.exception.ModuloDuplicadoException;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,6 +57,7 @@ public class Modulo {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_modulo_curso"))
+    @JsonBackReference
     private Curso curso;
 
     /**
@@ -69,6 +71,14 @@ public class Modulo {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.numeroOrden = numeroOrden;
+        this.curso = curso;
+    }
+
+    /**
+     * Método temporal para asignar curso sin relación bidireccional (para DataLoader)
+     * @param curso el curso a asignar
+     */
+    public void setCursoDirecto(Curso curso) {
         this.curso = curso;
     }
 
