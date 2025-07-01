@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
 @AllArgsConstructor
@@ -32,11 +33,13 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_categoria", updatable = false, nullable = false)
+    @Schema(description = "Identificador único de la categoría", example = "1")
     private Long id;
 
     @NotBlank
     @Size(max = 255)
     @Column(nullable = false, length = 255, unique = true)
+    @Schema(description = "Nombre de la categoría", example = "Programación")
     private String nombre;
 
     /**
@@ -45,6 +48,7 @@ public class Categoria {
      */
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @Schema(description = "Lista de relaciones curso-categoría asociadas a esta categoría")
     private List<CursoCategoria> cursoCategorias = new ArrayList<>();
 
 

@@ -3,6 +3,7 @@ package com.edutech.cursos_inscripciones_service.model;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,13 +31,15 @@ import lombok.NoArgsConstructor;
 public class CursoCategoria {
 
     /**
-     * Identificador único del CursoCategoria.
+     * Identificador único de la relación curso-categoría
      */
+    @Schema(description = "Identificador único de la relación curso-categoría", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_curso_categoria", updatable = false, nullable = false)
     private Long id;
 
+    @Schema(description = "Curso asociado a la categoría")
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false, 
@@ -44,6 +47,7 @@ public class CursoCategoria {
     @JsonBackReference
     private Curso curso;
 
+    @Schema(description = "Categoría asociada al curso")
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_categoria", nullable = false, 

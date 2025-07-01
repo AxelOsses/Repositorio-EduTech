@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
 @AllArgsConstructor
@@ -22,16 +23,19 @@ public class TipoEvaluacion {
     /**
      * Identificador único del tipoEvaluacion.
      */
+    @Schema(description = "Identificador único del tipo de evaluación", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_tipo_evaluacion", updatable = false, nullable = false)
     private Long id;
 
+    @Schema(description = "Nombre del tipo de evaluación", example = "EXAMEN")
     @Size(max = 255)
     @NotBlank
     @Column(nullable = false, length = 255)
     private String nombre;
 
+    @Schema(description = "Descripción del tipo de evaluación", example = "Evaluación escrita presencial.")
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 

@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.HashSet;
 import java.util.Set;
 
-@Profile("dev")
+@Profile("test")
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -61,7 +61,7 @@ public class DataLoader implements CommandLineRunner {
 
         // Generar categorías
         System.out.println("Generando categorías...");
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 4; i++) {
             Categoria categoria = new Categoria();
             categoria.setNombre(faker.educator().course() + " " + (i + 1));
             categoriaRepository.save(categoria);
@@ -82,7 +82,7 @@ public class DataLoader implements CommandLineRunner {
         List<Categoria> categorias = categoriaRepository.findAll();
         TipoEstadoCurso[] estados = TipoEstadoCurso.values();
         
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 5; i++) {
             Curso curso = new Curso();
             curso.setTitulo(faker.educator().course() + " " + (i + 1));
             curso.setDescripcion(faker.lorem().paragraph());
@@ -100,7 +100,7 @@ public class DataLoader implements CommandLineRunner {
         List<Curso> cursos = cursoRepository.findAll();
         List<TipoEvaluacion> tiposEval = tipoEvaluacionRepository.findAll();
         
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             Evaluacion evaluacion = new Evaluacion();
             evaluacion.setNombre(faker.educator().course() + " - " + faker.options().option("Examen", "Quiz", "Proyecto") + " " + (i + 1));
             evaluacion.setDescripcion(faker.lorem().sentence());
@@ -112,7 +112,7 @@ public class DataLoader implements CommandLineRunner {
 
         // Generar inscripciones
         System.out.println("Generando inscripciones...");
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             Inscripcion inscripcion = new Inscripcion();
             inscripcion.setCurso(cursos.get(random.nextInt(cursos.size())));
             inscripcion.setEstudianteId((long) faker.number().numberBetween(1, 1000));
@@ -123,7 +123,7 @@ public class DataLoader implements CommandLineRunner {
 
         // Generar instructor-curso
         System.out.println("Generando instructor-curso...");
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 7; i++) {
             InstructorCurso instructorCurso = new InstructorCurso();
             instructorCurso.setCurso(cursos.get(random.nextInt(cursos.size())));
             instructorCurso.setInstructorId((long) faker.number().numberBetween(1, 100));
@@ -136,7 +136,7 @@ public class DataLoader implements CommandLineRunner {
         List<Inscripcion> inscripciones = inscripcionRepository.findAll();
         
         // Crear progreso solo para algunas inscripciones (no todas)
-        int numProgresos = Math.min(30, inscripciones.size()); // Máximo 30 progresos
+        int numProgresos = Math.min(7, inscripciones.size()); // Máximo 7 progresos
         
         for (int i = 0; i < numProgresos; i++) {
             ProgresoCurso progresoCurso = new ProgresoCurso();
@@ -167,7 +167,7 @@ public class DataLoader implements CommandLineRunner {
         // Generar módulos para cada curso
         System.out.println("Generando módulos...");
         for (Curso curso : cursos) {
-            int numModulos = random.nextInt(5) + 3; // 3-7 módulos por curso
+            int numModulos = random.nextInt(2) + 4; // 4-5 módulos por curso
             for (int i = 0; i < numModulos; i++) {
                 Modulo modulo = new Modulo();
                 modulo.setTitulo(faker.educator().course() + " - Módulo " + (i + 1));
@@ -182,7 +182,7 @@ public class DataLoader implements CommandLineRunner {
         System.out.println("Generando módulos cursados...");
         List<Modulo> modulos = moduloRepository.findAll();
         List<ProgresoCurso> progresos = progresoCursoRepository.findAll();
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 7; i++) {
             ModuloCursado moduloCursado = new ModuloCursado();
             moduloCursado.setProgresoCurso(progresos.get(random.nextInt(progresos.size())));
             moduloCursado.setModulo(modulos.get(random.nextInt(modulos.size())));
@@ -198,10 +198,9 @@ public class DataLoader implements CommandLineRunner {
         
         // Crear notas de evaluación de forma más controlada
         // Solo crear una nota por módulo cursado para evitar restricciones únicas
-        int notasGeneradas = 0;
-        int maxNotas = Math.min(20, modulosCursados.size()); // Máximo 20 notas o el número de módulos cursados
+        int notasAGenerar = Math.min(7, modulosCursados.size());
         
-        for (int i = 0; i < maxNotas; i++) {
+        for (int i = 0; i < notasAGenerar; i++) {
             ModuloCursado moduloCursado = modulosCursados.get(i); // Usar índice secuencial
             Evaluacion evaluacion = evaluaciones.get(random.nextInt(evaluaciones.size()));
             
@@ -213,15 +212,13 @@ public class DataLoader implements CommandLineRunner {
                 notaEvaluacion.setPuntajeRequerido((float) faker.number().randomDouble(2, 5, 7)); // Puntaje requerido entre 5 y 7
                 notaEvaluacion.setComentario(faker.lorem().sentence());
                 notaEvaluacionRepository.save(notaEvaluacion);
-                
-                notasGeneradas++;
             } catch (Exception e) {
                 System.out.println("Error al crear nota de evaluación " + i + ": " + e.getMessage());
                 // Continuar con el siguiente
             }
         }
         
-        System.out.println("Notas de evaluación generadas: " + notasGeneradas);
+        System.out.println("Notas de evaluación generadas: " + notasAGenerar);
 
         System.out.println("¡Datos de prueba generados exitosamente!");
         System.out.println("Categorías: " + categoriaRepository.count());

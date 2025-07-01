@@ -2,6 +2,7 @@ C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\curso
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\Curso.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\TipoEstadoCurso.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\repository\ProgresoCursoRepository.java
+C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\exception\ModuloCursadoDuplicadoException.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\CursosInscripcionesServiceApplication.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\controller\CursoController.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\ProgresoCurso.java
@@ -10,9 +11,12 @@ C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\curso
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\controller\InscripcionController.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\NotaEvaluacion.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\service\CursoService.java
+C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\assemblers\InstructorCursoModelAssembler.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\exception\GlobalExceptionHandler.java
+C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\assemblers\CursoModelAssembler.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\CursoCategoria.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\Inscripcion.java
+C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\assemblers\ProgresoCursoModelAssembler.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\Evaluacion.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\Categoria.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\service\InscripcionService.java
@@ -26,11 +30,15 @@ C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\curso
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\model\ModuloCursado.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\repository\ModuloCursadoRepository.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\DataLoader.java
+C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\assemblers\InscripcionModelAssembler.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\exception\ModuloInexistenteException.java
+C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\exception\ModuloCursadoInexistenteException.java
+C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\assemblers\EvaluacionModelAssembler.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\service\EvaluacionService.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\repository\ModuloRepository.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\repository\InstructorCursoRepository.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\service\InstructorCursoService.java
+C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\config\SwaggerConfig.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\repository\TipoEvaluacionRepository.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\exception\ModuloDuplicadoException.java
 C:\Users\gilga\OneDrive\Desktop\Fullstack 1\ClonReposi\Repositorio-EduTech\cursos-inscripciones-service\src\main\java\com\edutech\cursos_inscripciones_service\exception\ResourceNotFoundException.java
