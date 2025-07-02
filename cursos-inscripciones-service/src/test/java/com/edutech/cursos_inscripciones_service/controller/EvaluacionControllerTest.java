@@ -4,6 +4,7 @@ import com.edutech.cursos_inscripciones_service.model.Evaluacion;
 import com.edutech.cursos_inscripciones_service.model.Curso;
 import com.edutech.cursos_inscripciones_service.model.TipoEvaluacion;
 import com.edutech.cursos_inscripciones_service.service.EvaluacionService;
+import com.edutech.cursos_inscripciones_service.assemblers.EvaluacionModelAssembler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,9 @@ public class EvaluacionControllerTest {
 
     @MockBean
     private EvaluacionService evaluacionService;
+
+    @MockBean
+    private EvaluacionModelAssembler evaluacionModelAssembler;
 
     @Autowired
     private ObjectMapper objectMapper;

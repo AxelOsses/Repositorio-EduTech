@@ -3,6 +3,7 @@ package com.edutech.cursos_inscripciones_service.controller;
 import com.edutech.cursos_inscripciones_service.model.InstructorCurso;
 import com.edutech.cursos_inscripciones_service.model.Curso;
 import com.edutech.cursos_inscripciones_service.service.InstructorCursoService;
+import com.edutech.cursos_inscripciones_service.assemblers.InstructorCursoModelAssembler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.CollectionModel;
+import java.util.Collections;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,6 +34,9 @@ public class InstructorCursoControllerTest {
     @MockBean
     private InstructorCursoService instructorCursoService;
 
+    @MockBean
+    private InstructorCursoModelAssembler instructorCursoModelAssembler;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -42,6 +49,11 @@ public class InstructorCursoControllerTest {
         instructorCurso.setInstructorId(100L);
         instructorCurso.setCurso(new Curso());
         instructorCurso.setFechaOtorgacion(LocalDate.now());
+
+        // Mock del assembler para evitar NullPointerException
+        EntityModel<InstructorCurso> entityModel = EntityModel.of(instructorCurso);
+        when(instructorCursoModelAssembler.toModel(any(InstructorCurso.class))).thenReturn(entityModel);
+        when(instructorCursoModelAssembler.toCollectionModel(any())).thenReturn(CollectionModel.of(Collections.singletonList(entityModel)));
     }
 
     @Test

@@ -44,4 +44,29 @@ public class UsuarioServiceTest {
         assertEquals("Juan", usuarios.get(0).getNombre());
         verify(usuarioRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testFindById() {
+        when(usuarioRepository.findById(1L)).thenReturn(java.util.Optional.of(usuario));
+        Usuario found = usuarioService.findById(1L);
+        assertNotNull(found);
+        assertEquals("Juan", found.getNombre());
+        verify(usuarioRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testSave() {
+        when(usuarioRepository.save(usuario)).thenReturn(usuario);
+        Usuario saved = usuarioService.save(usuario);
+        assertNotNull(saved);
+        assertEquals("Juan", saved.getNombre());
+        verify(usuarioRepository, times(1)).save(usuario);
+    }
+
+    @Test
+    public void testDelete() {
+        doNothing().when(usuarioRepository).deleteById(1L);
+        usuarioService.delete(1L);
+        verify(usuarioRepository, times(1)).deleteById(1L);
+    }
 } 

@@ -41,4 +41,29 @@ public class PermisoServiceTest {
         assertEquals("READ", permisos.get(0).getNombre());
         verify(permisoRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testBuscarPorId_Permiso() {
+        when(permisoRepository.findById(1L)).thenReturn(java.util.Optional.of(permiso));
+        Permiso encontrado = permisoService.findById(1L);
+        assertNotNull(encontrado);
+        assertEquals("READ", encontrado.getNombre());
+        verify(permisoRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testGuardar_Permiso() {
+        when(permisoRepository.save(permiso)).thenReturn(permiso);
+        Permiso guardado = permisoService.save(permiso);
+        assertNotNull(guardado);
+        assertEquals("READ", guardado.getNombre());
+        verify(permisoRepository, times(1)).save(permiso);
+    }
+
+    @Test
+    public void testEliminarPorId_Permiso() {
+        doNothing().when(permisoRepository).deleteById(1L);
+        permisoService.deleteById(1L);
+        verify(permisoRepository, times(1)).deleteById(1L);
+    }
 }

@@ -9,6 +9,7 @@ import lombok.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "rol")
@@ -26,7 +27,8 @@ public class Rol extends RepresentationModel<Rol> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_curso", updatable = false, nullable = false)
-    @Schema(description = "ID único del rol", example = "1")
+    @JsonIgnore
+    @Schema(description = "ID único del rol", example = "1", hidden = true)
     private Long id;
 
     @Column(nullable = false)
@@ -38,17 +40,20 @@ public class Rol extends RepresentationModel<Rol> {
     private String descripcion;
 
     @Column(name = "fecha_creacion", nullable = false)
-    @Schema(description = "Fecha de creación del rol", example = "2024-01-15T10:30:00")
+    @JsonIgnore
+    @Schema(description = "Fecha de creación del rol", example = "2024-01-15T10:30:00", hidden = true)
     private LocalDateTime fechaCreacion = LocalDateTime.now();
 
     @Column(nullable = false)
-    @Schema(description = "Indica si el rol está activo", example = "true")
+    @JsonIgnore
+    @Schema(description = "Indica si el rol está activo", example = "true", hidden = true)
     private boolean estaActivo = true;
 
     @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude  // Evitar recursión en toString
     @JsonManagedReference  // Evitar recursión infinita en JSON
-    @Schema(description = "Usuarios que tienen este rol")
+    @JsonIgnore
+    @Schema(description = "Usuarios que tienen este rol", hidden = true)
     private List<UsuarioRol> usuarios = new ArrayList<>();
 
     @ManyToMany
@@ -58,7 +63,8 @@ public class Rol extends RepresentationModel<Rol> {
         inverseJoinColumns = @JoinColumn(name = "permiso_id")
     )
     @ToString.Exclude
-    @Schema(description = "Permisos asignados al rol")
+    @JsonIgnore
+    @Schema(description = "Permisos asignados al rol", hidden = true)
     private Set<Permiso> permisos = new HashSet<>();
 
 

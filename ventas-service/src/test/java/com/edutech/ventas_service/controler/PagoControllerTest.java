@@ -108,7 +108,6 @@ public class PagoControllerTest {
 
     @Test
     void testEliminarPago_NotFound() throws Exception {
-        // Simular excepción en el service
         org.mockito.Mockito.doThrow(new RuntimeException()).when(pagoService).delete(99);
         mockMvc.perform(delete("/api/v1/pagos/99"))
                 .andExpect(status().isNotFound());

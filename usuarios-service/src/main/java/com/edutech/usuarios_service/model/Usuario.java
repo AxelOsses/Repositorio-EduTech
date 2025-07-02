@@ -62,7 +62,8 @@ public class Usuario extends RepresentationModel<Usuario> {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude  // Evitar recursión en toString
     @JsonManagedReference  // Evitar recursión infinita en JSON
-    @Schema(description = "Roles asignados al usuario")
+    @JsonIgnore // Oculta la lista de roles en la respuesta JSON
+    @Schema(hidden = true) // Oculta en Swagger
     private List<UsuarioRol> roles = new ArrayList<>();
 
 

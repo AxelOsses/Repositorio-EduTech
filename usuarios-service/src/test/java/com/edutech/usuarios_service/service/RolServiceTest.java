@@ -41,4 +41,29 @@ public class RolServiceTest {
         assertEquals("ADMIN", roles.get(0).getNombre());
         verify(rolRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testBuscarPorId_Rol() {
+        when(rolRepository.findById(1L)).thenReturn(java.util.Optional.of(rol));
+        Rol encontrado = rolService.findById(1L);
+        assertNotNull(encontrado);
+        assertEquals("ADMIN", encontrado.getNombre());
+        verify(rolRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testGuardar_Rol() {
+        when(rolRepository.save(rol)).thenReturn(rol);
+        Rol guardado = rolService.save(rol);
+        assertNotNull(guardado);
+        assertEquals("ADMIN", guardado.getNombre());
+        verify(rolRepository, times(1)).save(rol);
+    }
+
+    @Test
+    public void testEliminarPorId_Rol() {
+        doNothing().when(rolRepository).deleteById(1L);
+        rolService.deleteById(1L);
+        verify(rolRepository, times(1)).deleteById(1L);
+    }
 }

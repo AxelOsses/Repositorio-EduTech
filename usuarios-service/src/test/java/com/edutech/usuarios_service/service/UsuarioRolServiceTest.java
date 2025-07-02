@@ -40,4 +40,29 @@ public class UsuarioRolServiceTest {
         assertEquals(1L, usuarioRoles.get(0).getId());
         verify(usuarioRolRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testBuscarPorId_UsuarioRol() {
+        when(usuarioRolRepository.findById(1L)).thenReturn(java.util.Optional.of(usuarioRol));
+        UsuarioRol encontrado = usuarioRolService.findById(1L);
+        assertNotNull(encontrado);
+        assertEquals(1L, encontrado.getId());
+        verify(usuarioRolRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testGuardar_UsuarioRol() {
+        when(usuarioRolRepository.save(usuarioRol)).thenReturn(usuarioRol);
+        UsuarioRol guardado = usuarioRolService.save(usuarioRol);
+        assertNotNull(guardado);
+        assertEquals(1L, guardado.getId());
+        verify(usuarioRolRepository, times(1)).save(usuarioRol);
+    }
+
+    @Test
+    public void testEliminarPorId_UsuarioRol() {
+        doNothing().when(usuarioRolRepository).deleteById(1L);
+        usuarioRolService.delete(1L);
+        verify(usuarioRolRepository, times(1)).deleteById(1L);
+    }
 }

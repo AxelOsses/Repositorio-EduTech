@@ -7,7 +7,10 @@ import lombok.*;
 
 import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(hidden = true)
 @Entity
 @Table(name = "usuario_rol")
 @Data
@@ -24,6 +27,8 @@ public class UsuarioRol extends RepresentationModel<UsuarioRol> {
     @Column(name = "id_usuario_rol", updatable = false, nullable = false)
     private Long id;
 
+    @Schema(hidden = true)
+    @JsonIgnore
     @Column(name = "fecha_asignacion", nullable = false)
     private LocalDateTime fechaAsignacion;
 
