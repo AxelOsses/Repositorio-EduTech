@@ -16,6 +16,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
 @AllArgsConstructor
@@ -28,30 +30,38 @@ public class Evaluacion {
     /**
      * Identificador único de la evaluación
      */
+    @Schema(description = "Identificador único de la evaluación", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_evaluacion", updatable = false, nullable = false)
     private Long id;
 
+    @Schema(description = "Nombre de la evaluación", example = "Parcial 1")
     @NotBlank
     @Size(max = 255)
     @Column(length = 255, nullable = false)
     private String nombre;
 
+    @Schema(description = "Descripción de la evaluación", example = "Primer examen parcial del curso de Java.")
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @Schema(description = "Módulo asociado a la evaluación")
     @ManyToOne(optional = true)
     @JoinColumn(name = "id_modulo", 
                 foreignKey = @ForeignKey(name = "fk_evaluacion_modulo"))
+    @JsonBackReference
     private Modulo modulo;
 
+    @Schema(description = "Curso asociado a la evaluación")
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false, 
                 foreignKey = @ForeignKey(name = "fk_evaluacion_curso"))
+    @JsonBackReference
     private Curso curso;
 
+    @Schema(description = "Tipo de evaluación", example = "EXAMEN")
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_tipo_evaluacion", nullable = false, 

@@ -27,6 +27,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Entidad que representa un curso en la plataforma.
@@ -41,6 +43,7 @@ public class Curso {
     /**
      * Identificador único del curso.
      */
+    @Schema(description = "Identificador único del curso", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_curso", updatable = false, nullable = false)
@@ -49,6 +52,7 @@ public class Curso {
     /**
      * Título del curso.
      */
+    @Schema(description = "Título del curso", example = "Curso de Java desde cero")
     @NotBlank
     @Size(max = 255)
     @Column(nullable = false, length = 255)
@@ -57,12 +61,14 @@ public class Curso {
     /**
      * Descripción detallada del curso.
      */
+    @Schema(description = "Descripción detallada del curso", example = "Aprende Java desde los fundamentos hasta conceptos avanzados.")
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
     /**
      * Fecha de creación del curso.
      */
+    @Schema(description = "Fecha de creación del curso (yyyy-MM-dd)", example = "2023-01-01")
     @NotNull
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDate fechaCreacion;
@@ -70,12 +76,14 @@ public class Curso {
     /**
      * Fecha de última actualización del curso.
      */
+    @Schema(description = "Fecha de última actualización del curso (yyyy-MM-dd)", example = "2023-01-10")
     @Column(name = "fecha_actualizacion")
     private LocalDate fechaActualizacion;
 
     /**
      * Duración total del curso en horas.
      */
+    @Schema(description = "Duración total del curso en horas", example = "40")
     @Min(1)
     @Column(name = "duracion_horas")
     private int duracionHoras;
@@ -83,6 +91,7 @@ public class Curso {
     /**
      * Número de orden del curso en la lista general.
      */
+    @Schema(description = "Número de orden del curso en la lista", example = "1")
     @NotNull
     @Min(1)
     @Column(name = "numero_orden")
@@ -91,6 +100,7 @@ public class Curso {
     /**
      * Estado actual del curso (activo, inactivo, archivado, etc.).
      */
+    @Schema(description = "Estado actual del curso", example = "ACTIVO")
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -100,6 +110,8 @@ public class Curso {
      * Lista de módulos asociados al curso.
      * Relación bidireccional con la entidad Modulo.
      */
+    @Schema(description = "Lista de módulos asociados al curso")
+    @JsonManagedReference
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("numeroOrden ASC")
     private List<Modulo> modulos = new ArrayList<>();
@@ -108,6 +120,8 @@ public class Curso {
      * Lista de categorias asociados al curso.
      * Relación bidireccional con la entidad Categoria.
      */
+    @Schema(description = "Lista de categorías asociadas al curso")
+    @JsonManagedReference
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CursoCategoria> cursoCategorias = new ArrayList<>();
 

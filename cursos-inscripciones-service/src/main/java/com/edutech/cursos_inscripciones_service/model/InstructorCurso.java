@@ -16,6 +16,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Entidad que representa la asignación de un instructor a un curso,
@@ -34,6 +36,7 @@ public class InstructorCurso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_instructor_curso", updatable = false, nullable = false)
+    @Schema(description = "Identificador único de la asignación instructor-curso", example = "1")
     private Long id;
 
     /**
@@ -41,6 +44,7 @@ public class InstructorCurso {
      */
     @NotNull
     @Column(name = "id_usuario", nullable = false)
+    @Schema(description = "ID del instructor asignado", example = "20")
     private Long instructorId;
 
     /**
@@ -50,6 +54,8 @@ public class InstructorCurso {
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_instructorcurso_curso"))
+    @JsonBackReference
+    @Schema(description = "Curso asociado a la asignación")
     private Curso curso;
 
     /**
@@ -57,6 +63,7 @@ public class InstructorCurso {
      */
     @NotNull
     @Column(name = "fecha_otorgacion", nullable = false)
+    @Schema(description = "Fecha de otorgación de la asignación (yyyy-MM-dd)", example = "2023-04-10")
     private LocalDate fechaOtorgacion;
 
     /**
@@ -69,6 +76,15 @@ public class InstructorCurso {
         this.instructorId = instructorId;
         this.curso = curso;
         this.fechaOtorgacion = fechaOtorgacion;
+    }
+
+    // Métodos manuales para evitar problemas con Lombok
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
 }

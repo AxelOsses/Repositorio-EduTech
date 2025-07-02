@@ -15,6 +15,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
 @AllArgsConstructor
@@ -30,23 +32,29 @@ public class Inscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_inscripcion", updatable = false, nullable = false)
+    @Schema(description = "Identificador único de la inscripción", example = "1")
     private Long id;
 
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false, foreignKey = @ForeignKey(name = "fk_inscripcion_curso"))
+    @JsonBackReference
+    @Schema(description = "Curso asociado a la inscripción")
     private Curso curso;
 
     @NotNull
     @Column(name = "id_usuario", nullable = false)
+    @Schema(description = "ID del estudiante inscrito", example = "10")
     private Long estudianteId;
 
     @NotNull
     @Column(name = "fecha_inscripcion", nullable = false)
+    @Schema(description = "Fecha de inscripción (yyyy-MM-dd)", example = "2023-05-01")
     private LocalDate fechaInscripcion;
 
     @NotNull
     @Column(name = "esta_aprobado", nullable = false)
+    @Schema(description = "Indica si el curso fue aprobado", example = "true")
     private Boolean estaAprobado;
 
     /**

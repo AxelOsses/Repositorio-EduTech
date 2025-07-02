@@ -15,6 +15,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
 @AllArgsConstructor
@@ -30,27 +32,35 @@ public class NotaEvaluacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_nota_evaluacion", updatable = false, nullable = false)
+    @Schema(description = "Identificador único de la nota de evaluación", example = "1")
     private Long id;
 
     @OneToOne(optional = true)
     @JoinColumn(name = "id_modulo_cursado", foreignKey = @ForeignKey(name = "fk_nota_evaluacion_modulo_cursado"))
+    @JsonBackReference
+    @Schema(description = "Módulo cursado asociado a la nota de evaluación")
     private ModuloCursado moduloCursado;
 
     @NonNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_evaluacion", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_nota_evaluacion_evaluacion"))
+    @JsonBackReference
+    @Schema(description = "Evaluación asociada a la nota de evaluación")
     private Evaluacion evaluacion;
 
     @Column(name = "puntaje_obtenido")
+    @Schema(description = "Puntaje obtenido en la evaluación", example = "8.5")
     private Float puntajeObtenido;
 
     @NonNull
     @Column(name = "puntaje_requerido", nullable = false)
+    @Schema(description = "Puntaje requerido para aprobar la evaluación", example = "7.0")
     private Float puntajeRequerido;
 
     @Size(max = 3000)
     @Column(length = 3000)
+    @Schema(description = "Comentario o feedback del profesor", example = "Buen desempeño, pero puedes mejorar en la parte teórica.")
     private String comentario;
 
     /**

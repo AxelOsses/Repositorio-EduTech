@@ -1,6 +1,8 @@
 package com.edutech.cursos_inscripciones_service.model;
 
 import com.edutech.cursos_inscripciones_service.exception.ModuloDuplicadoException;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,30 +34,33 @@ public class Modulo {
     /**
      * Identificador único del modulo.
      */
-    /**
-     * Identificador único del curso.
-     */
+    @Schema(description = "Identificador único del módulo", example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremental en MySQL
     @Column(name = "id_modulo", updatable = false, nullable = false)
     private Long id;
 
+    @Schema(description = "Título del módulo", example = "Introducción a Java")
     @NotBlank
     @Column(nullable = false)
     private String titulo;
 
+    @Schema(description = "Descripción detallada del módulo", example = "Este módulo cubre los conceptos básicos de Java y su sintaxis.")
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @Schema(description = "Número de orden del módulo en el curso", example = "1")
     @NotNull
     @Min(1)
     @Column(name = "numero_orden", nullable = false)
     private Integer numeroOrden;
 
+    @Schema(description = "Curso asociado al módulo")
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_curso", nullable = false,
                 foreignKey = @ForeignKey(name = "fk_modulo_curso"))
+    @JsonBackReference
     private Curso curso;
 
     /**
@@ -69,6 +74,14 @@ public class Modulo {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.numeroOrden = numeroOrden;
+        this.curso = curso;
+    }
+
+    /**
+     * Método temporal para asignar curso sin relación bidireccional (para DataLoader)
+     * @param curso el curso a asignar
+     */
+    public void setCursoDirecto(Curso curso) {
         this.curso = curso;
     }
 
